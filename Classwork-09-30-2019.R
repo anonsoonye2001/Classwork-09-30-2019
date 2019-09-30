@@ -48,8 +48,9 @@ head(m2)
 # create a sequence of data
 m2$seq<-seq(from=1, to=nrow(m2),by=1)
 v<-seq(5,20,0.5)
-vc<-cut(x=v,breaks=c(1:2),labels = T,include.lowest = T)
-
+v
+vc<-cut(x=v,breaks=seq(5,20,1),include.lowest = T)
+vc
 ##merge I
 ?merge()
 mt<-merge(x=m1, y=m2,by=c("transect.id","seq"),all.x=T,no.dups=T)
@@ -59,3 +60,4 @@ nrow(m1)+nrow(m2)
 library(dplyr)
 mj<-dplyr::right_join(x=m1,y=m2,by=c('transect.id'))
 nrow(m1)+nrow(m2)
+
