@@ -105,18 +105,20 @@ bats.team<- tapply(X=d$HR, INDEX=list(d$lgID,d$teamID,d$bats),FUN=mean)
 bats.team
 #aggregate------
 
-team.stats.sum<-aggregate(x=d,[c("AB","H","BB","2B","HR")],
+team.stats.sum<-aggregate(x=d[,c("AB","H","BB","2B","HR")],
                           by=list(d$teamID),FUN=sum)
 team.stats.sum
-team.stats.mean<-aggregate(X=d,[c("AB","H","BB","2B","HR")],
+team.stats.mean<-aggregate(x=d[,c("AB","H","BB","2B","HR")],
                            by=list(d$teamID),FUN=mean)
 team.stats.mean
 
 
 #tidyverse summarise()----
-team.sum=summarise(.data=d,)
+team.sum=summarise(.data=d,) #incomplete
+team.sum
 team.sum=d%>%group_by(teamID)%>%summarise(ABsum=sum(AB),ABmean=mean(AB),
                                           ABsd=sd(AB),ABcount=n())
+team.sum
 lg.team.sum=d%>%group_by(lgID,teamID)%>%summarise(ABsum=sum(AB),ABmean=mean(AB),
                                                   ABsd=sd(AB),ABcount=n())
 
@@ -135,22 +137,26 @@ rs
 HR.cnts<-tabulate(d$HR)
 names(HR.cnts)<-0:(length(HR.cnts)-1)
 
+length(d$teamID)
+length(unique(d$teamID))
+
+length(HR.cnts)
+HR.cnts
+
 #table-----
 table(d$bats)
 table(d[,c("bats","throws")])
-length(HR.cnts)
-HR.cnts
-length(d$teamID)
-(unique(d$teamIlengthD))
+
 
 #aside about the 'names' function------
 m<-matrix(nrow=4,ncol=3)
 colnames(m)<-c("one","two","three")
 rownames(m)<-c("apple","pear","orange","berry")
+m
 
 #reshaping your data----
 n<-matrix(1:10,nrow=5)
-
+n
 t(n)
 
 v<-1:10
@@ -163,14 +169,15 @@ str(t(v))
 s<-d[,c("lgID","teamID","AB","HR","throws")]
 head(s)
 s.un<-unstack(x=s,form=teamID~HR)
-
+s.un
 s.un<-unstack(x=s,form=HR~AB)
-
+s.un
 #melt and cast-----
 library(reshape2)
 
 
 head(s)
-#use the "cast" function to change data frame from tthe long to wide format
-s.wide<-dcast(data=s,formula=lgID~teamID,fun.aggregate = mean)
+#use the "cast" function to change data frame from the long to wide format
+
 s.wide<-dcast(data=s,value.var="HR",formula=lgID~teamID,fun.aggregate = mean)
+s.wide
