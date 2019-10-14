@@ -41,7 +41,7 @@ head(c3)
 
 
 #merging 2 dataframes ensuring that observations from one dataframe are connected with
-#observationin the second data frame correctly
+#observation in the second data frame correctly
 m1<-subset(x=f,depth_fac=="Deep", select=c("transect.id","area_fac"))
 m1$seq<-seq(1,nrow(m1),1)
 head(m1)
@@ -81,11 +81,12 @@ d<-batting.2008
 
 #tapply---(tidyverse function)
 ?tapply()
-hr<-tapply(X=d$HR,INDEX=list(d$teamID),FUN=sum)
-
+hr<-tapply(X=d$HR,INDEX=list(d$teamID),FUN=sum) #output is in vector form
+hr
 ##find qualitile values for home runs by team
 ##fivenum gives you:min, lower-hinge, median, upper-hinge, and max value
-hr.q<-tapply(X=d$HR,INDEX=list(d$teamID),FUN=sum)
+hr.p<-tapply(X=d$HR,INDEX=list(d$teamID),FUN=fivenum)
+hr.p
 # one category summarize
 lg.q<-tapply(X=(d$H/d$AB),INDEX=list(d$lgID),FUN=fivenum)
 lg.q
@@ -104,9 +105,11 @@ bats.team<- tapply(X=d$HR, INDEX=list(d$lgID,d$teamID,d$bats),FUN=mean)
 bats.team
 #aggregate------
 
-team.stats.sum<-aggregate(x=d,[c("AB","H","BB","2B","HR")],by=list(d$teamID),FUN=sum)
+team.stats.sum<-aggregate(x=d,[c("AB","H","BB","2B","HR")],
+                          by=list(d$teamID),FUN=sum)
 team.stats.sum
-team.stats.mean<-aggregate(X=d,[c("AB","H","BB","2B","HR")],by=list(d$teamID),FUN=mean)
+team.stats.mean<-aggregate(X=d,[c("AB","H","BB","2B","HR")],
+                           by=list(d$teamID),FUN=mean)
 team.stats.mean
 
 
